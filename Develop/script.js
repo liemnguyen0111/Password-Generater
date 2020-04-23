@@ -7,8 +7,140 @@ function writePassword() {
   var passwordText = document.querySelector("#password");
 
   passwordText.value = password;
-
+  
 }
 
 // Add event listener to generate button
 generateBtn.addEventListener("click", writePassword);
+
+/*----------------------------------------------Line-Breaks-Between-Each-Function-----------------------------------------------*/
+/*----------------------------------------------------GENERATE-PASSWORD---------------------------------------------------------*/
+
+//Generate a password and returns it to display on screen
+function generatePassword()
+{
+  //Create password variable to store the password that will be use to return
+  let password = ''
+
+  //Get user inputs for password length and the data type that they wants to include in the password.
+  let passwordLength = getPasswordLength()
+  let dataType = getDataType()
+
+  //Create new variables to store data
+  let alpha = getData(/^[a-z]+$/)
+  let num = getData(/^[0-9]+$/)
+  let specialChar = getData(/^[!-~]+$/)
+  
+  //Create a new variable to store the length of each array 
+  //So we don't have to recall the function .length in the for loop everytime it iterates 
+  let dataTypeLength = dataType.length
+  let alphaLength = alpha.length
+  let numLength = num.length
+  let specialCharLength = specialChar.length
+
+  for(i = 0; i < passwordLength;i++)
+  {
+    switch (dataType[Math.floor(Math.random() * dataTypeLength)])
+    {
+      case 'l':
+          password += (alpha[Math.floor(Math.random() * alphaLength)].toLowerCase())
+        break;
+        case 'n':
+          password += (num[Math.floor(Math.random() * numLength)])
+        break;
+        case 's':
+          password += (specialChar[Math.floor(Math.random() * specialCharLength)])
+        break;
+        case 'u':
+          password += (alpha[Math.floor(Math.random() * alphaLength)].toUpperCase())
+        break;
+         
+    }
+  }
+  
+  for(i = 0; i < passwordLength;i++)
+  console.log(i + " - " + password[i] +'\n')
+
+    return password
+}
+
+/*----------------------------------------------Line-Breaks-Between-Each-Function-----------------------------------------------*/
+/*----------------------------------------------------GET-PASSWORD-LENGTH-------------------------------------------------------*/
+
+//Get password length from user (Range must be between 8 - 120)
+let getPasswordLength = () =>
+{
+  let passwordLength = 0
+  let inputTimes = 0
+  do{
+    //
+    if(inputTimes === 0) 
+    {
+      passwordLength = prompt("Please enter your password range? (Minimum of 8 and maximum of 120)")
+      inputTimes++
+    }
+      else
+      {
+      passwordLength = prompt("Invalid input, range must be between 8 to 120, please try again!")
+      }
+    
+  }while(isNaN(passwordLength) || passwordLength < 8)
+
+  return passwordLength
+}
+
+/*----------------------------------------------Line-Breaks-Between-Each-Function-----------------------------------------------*/
+/*--------------------------------------------------------GET-DATA-TYPE---------------------------------------------------------*/
+
+//Get characters type from user (User must choose lowercase, uppercase, numeric, and/or special characters)
+let getDataType = () =>
+{
+  let dataType 
+
+  do{
+    
+    dataType = prompt(`Please choose (l)owercase, (u)ppercase, (n)umeric, and/or (s)pecial characters to include in your password (Follow by a comma ",")`)
+    if(dataType != null)
+    {
+    dataType = dataType.replace(/,/g, "")
+    }
+  }while( !isNaN(dataType) || !/^[luns]+$/.test(dataType))
+
+  //Remove any duplicated values and return a uniq set of array
+  //Filter method : "Return dataType.split("").filter((value, index) => dataType.indexOf(value) === index)"
+  //Current method : Using Set
+  return [...new Set(dataType)].sort()
+}
+
+/*----------------------------------------------Line-Breaks-Between-Each-Function-----------------------------------------------*/
+/*----------------------------------------------------------IS-DATA-------------------------------------------------------------*/
+
+//isData returns the type of the specific data that passed through the parameter data
+//Using .test(str) will test to see if str is in the data range and return true if found else return false
+const isData = (data,str) =>
+{
+  return data.test(str)
+}
+
+/*----------------------------------------------Line-Breaks-Between-Each-Function-----------------------------------------------*/
+/*-----------------------------------------------------------GET-DATA-----------------------------------------------------------*/
+
+//getData will returns the data in the str range 
+//Format: getData(/^[data-range]+$/) 
+//Example: getData(/^[A-Z])+$/) will returns all the upper case letters in the alphabet
+let getData = (str) =>
+{
+  let data = []
+  for(i=33,a='';i<127;i++)
+   {
+     if(isData(str,String.fromCharCode(i)))
+     {
+        data.push((String.fromCharCode(i)))
+     }  
+    
+    }
+  return data
+}
+
+/*----------------------------------------------Line-Breaks-Between-Each-Function-----------------------------------------------*/
+/*--------------------------------------------------------------END-------------------------------------------------------------*/
