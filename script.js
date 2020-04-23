@@ -22,6 +22,9 @@ function generatePassword()
   //Create password variable to store the password that will be use to return
   let password = ''
 
+  //Display/alert the password criteria
+  passwordCriteria()
+
   //Get user inputs for password length and the data type that they wants to include in the password.
   let passwordLength = getPasswordLength()
   let dataType = getDataType()
@@ -29,7 +32,7 @@ function generatePassword()
   //Create new variables to store data
   let alpha = getData(/^[a-z]+$/)
   let num = getData(/^[0-9]+$/)
-  let specialChar = getData(/^[!-~]+$/)
+  let specialChar = getData(/^[!-/,:-@,[-`,{-~]+$/)
   
   //Create a new variable to store the length of each array 
   //So we don't have to recall the function .length in the for loop everytime it iterates 
@@ -38,6 +41,7 @@ function generatePassword()
   let numLength = num.length
   let specialCharLength = specialChar.length
 
+  //Randomly select a data type from the user input and store it into the password variable
   for(i = 0; i < passwordLength;i++)
   {
     switch (dataType[Math.floor(Math.random() * dataTypeLength)])
@@ -57,21 +61,29 @@ function generatePassword()
          
     }
   }
-  
-  for(i = 0; i < passwordLength;i++)
-  console.log(i + " - " + password[i] +'\n')
 
+    //Return the password and display it onto the screen
     return password
 }
-
 
 /*----------------------------------------------Line-Breaks-Between-Each-Function-----------------------------------------------*/
 /*------------------------------------------------------PASSWORD-CRITERIA-------------------------------------------------------*/
 
 //Prompt for a series of password criteria and user will have to select which criteria to include in the password
-let passwordCriteria = () =>
+const passwordCriteria = () =>
 {
+  alert(
+  `Passwords requirements:
 
+  A minimum of (8) and maximum of (128) characters in length
+  Be memorized; if a password is written down it must be secure
+  Contain at least one (1) character from four (4) of the following 
+  categories:
+    -Uppercase letter (A-Z)
+    -Lowercase letter (a-z)
+    -Digit (0-9)
+    -Special character (~\`!@#$%^&*()+=_-{}[]\|:;”’?/<>,.)`
+  )
 }
 
 /*----------------------------------------------Line-Breaks-Between-Each-Function-----------------------------------------------*/
@@ -86,7 +98,7 @@ let getPasswordLength = () =>
     //
     if(inputTimes === 0) 
     {
-      passwordLength = prompt("Please enter your password range? (Minimum of 8 and maximum of 120)")
+      passwordLength = prompt("Please enter your password range? (Minimum of 8 and maximum of 128)")
       inputTimes++
     }
       else
@@ -109,7 +121,7 @@ let getDataType = () =>
 
   do{
     
-    dataType = prompt(`Please choose (l)owercase, (u)ppercase, (n)umeric, and/or (s)pecial characters to include in your password (Follow by a comma ",")`)
+    dataType = prompt(`Please choose (l)owercase, (u)ppercase, (n)umeric, and/or (s)pecial characters you want to include in your password (Follow by a comma ",")`)
     if(dataType != null)
     {
     dataType = dataType.replace(/,/g, "")
@@ -120,16 +132,6 @@ let getDataType = () =>
   //Filter method : "Return dataType.split("").filter((value, index) => dataType.indexOf(value) === index)"
   //Current method : Using Set
   return [...new Set(dataType)].sort()
-}
-
-/*----------------------------------------------Line-Breaks-Between-Each-Function-----------------------------------------------*/
-/*----------------------------------------------------------IS-DATA-------------------------------------------------------------*/
-
-//isData returns the type of the specific data that passed through the parameter data
-//Using .test(str) will test to see if str is in the data range and return true if found else return false
-const isData = (data,str) =>
-{
-  return data.test(str)
 }
 
 /*----------------------------------------------Line-Breaks-Between-Each-Function-----------------------------------------------*/
@@ -150,6 +152,16 @@ let getData = (str) =>
     
     }
   return data
+}
+
+/*----------------------------------------------Line-Breaks-Between-Each-Function-----------------------------------------------*/
+/*----------------------------------------------------------IS-DATA-------------------------------------------------------------*/
+
+//isData returns the type of the specific data that passed through the parameter data
+//Using .test(str) will test to see if str is in the data range and return true if found else return false
+const isData = (data,str) =>
+{
+  return data.test(str)
 }
 
 /*----------------------------------------------Line-Breaks-Between-Each-Function-----------------------------------------------*/
