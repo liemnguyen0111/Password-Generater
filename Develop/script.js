@@ -64,6 +64,16 @@ function generatePassword()
     return password
 }
 
+
+/*----------------------------------------------Line-Breaks-Between-Each-Function-----------------------------------------------*/
+/*------------------------------------------------------PASSWORD-CRITERIA-------------------------------------------------------*/
+
+//Prompt for a series of password criteria and user will have to select which criteria to include in the password
+let passwordCriteria = () =>
+{
+
+}
+
 /*----------------------------------------------Line-Breaks-Between-Each-Function-----------------------------------------------*/
 /*----------------------------------------------------GET-PASSWORD-LENGTH-------------------------------------------------------*/
 
@@ -81,10 +91,10 @@ let getPasswordLength = () =>
     }
       else
       {
-      passwordLength = prompt("Invalid input, range must be between 8 to 120, please try again!")
+      passwordLength = prompt("Invalid input, range must be between 8 to 128, please try again!")
       }
     
-  }while(isNaN(passwordLength) || passwordLength < 8)
+  }while(isNaN(passwordLength) || passwordLength < 8 || passwordLength > 128)
 
   return passwordLength
 }
